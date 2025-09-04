@@ -1,5 +1,0 @@
-resources:
-  - ../../base
-images:
-  - name: akshat1414/userdata-microservice:sha-PLACEHOLDER
-    newTag: sha-PLACEHOLDER

@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: backend-userdata
-        image: akshat1414/userdata-microservice:sha-PLACEHOLDER
+        image: akshat1414/userdata-microservice:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8081
