@@ -49,11 +49,10 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
-                <dependency>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-starter-actuator</artifactId>
-                </dependency>
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
 
 
 	</dependencies>
@@ -64,6 +63,89 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+			<!-- Runs JUnit 5 tests -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+                <configuration>
+                    <useModulePath>false</useModulePath>
+                </configuration>
+            </plugin>
+
+            <!-- Code formatter/lint (CI will run `spotless:check`) -->
+            <plugin>
+				<groupId>com.diffplug.spotless</groupId>
+				<artifactId>spotless-maven-plugin</artifactId>
+				<version>2.43.0</version>
+				<configuration>
+					<!-- Optional: format misc files -->
+					<!--
+					<formats>
+					<format>
+						<includes>
+						<include>**/*.md</include>
+						<include>**/*.yml</include>
+						<include>**/*.yaml</include>
+						</includes>
+						<trimTrailingWhitespace/>
+						<endWithNewline/>
+					</format>
+					</formats>
+					-->
+					<java>
+					<googleJavaFormat version="1.17.0"/>
+					<removeUnusedImports/>
+					<!-- no <target> here -->
+					</java>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>none</phase>
+					<goals>
+						<goal>check</goal>   <!-- CI runs spotless:check -->
+					</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+
+            <!-- Style checker (uses built-in Google rules). CI runs `checkstyle:check` -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.3.1</version>
+                <configuration>
+                    <configLocation>google_checks.xml</configLocation>
+                    <consoleOutput>true</consoleOutput>
+                    <failsOnError>true</failsOnError>
+                    <linkXRef>false</linkXRef>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals><goal>check</goal></goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Enforce Java 17 at build time (optional but recommended) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.4.1</version>
+                <executions>
+                    <execution>
+                        <goals><goal>enforce</goal></goals>
+                        <configuration>
+                            <rules>
+                                <requireJavaVersion><version>[17,)</version></requireJavaVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 
