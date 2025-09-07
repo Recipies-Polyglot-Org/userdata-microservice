@@ -18,6 +18,8 @@ spec:
       - name: backend-userdata
         image: akshat1414/userdata-microservice:latest
         imagePullPolicy: IfNotPresent
+        securityContext:
+          allowPrivilegeEscalation: false
         ports:
         - containerPort: 8081
         resources:
